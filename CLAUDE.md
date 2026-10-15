@@ -57,8 +57,15 @@ ChemAI/
 ```
 
 > **路径口径**：代码根目录就是项目根目录。文档里出现 `backend/app/...`（43/58 号残留）按 `app/...` 解读，`app/routers/` 按 `app/api/` 解读——**不要另建 `backend/`**。树根名 `ChemAI/` 是本机实际目录名，文档里的 `chemai-backend/` 指同一处。
+>
+> **harness 路径对照**：设计文档按 Claude Code 写，技能路径是 `~/.claude/skills/`。本机主用 **Codex**，对应 `~/.codex/skills/`；将来若改用 Claude Code，再回到 `~/.claude/skills/`。两套装的是同一批技能（gstack / Matt skills / no-mistakes），内容一致。
 
 ## 常用命令
+
+> **必须用项目 venv，不要用系统 Python。** 本机系统 Python 里也有一套同名包，但版本与 requirements.txt 不符，且**缺 langgraph**：
+> 系统 fastapi 0.115.9 / chromadb 1.0.8 vs venv fastapi 0.109.2 / chromadb 0.4.22。
+> 一律显式指名 `venv\Scripts\python.exe`（例：`venv\Scripts\python.exe -m pytest`）。
+> 交互式终端已配好 PowerShell profile，cd 进项目会自动激活；但**非交互式 shell（agent 调用）不加载 profile**，必须写全路径。
 
 ```bash
 uvicorn app.main:app --reload --port 8000   # 项目根目录下
