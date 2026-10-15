@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>01-PESTLE 宏观环境分析 — ChemAI（智辅化学）</title>
+<style>
+  :root{
+    --ink:#1f2329; --ink2:#4e5969; --ink3:#86909c;
+    --line:#e5e6eb; --line2:#f2f3f5;
+    --bg:#ffffff; --bg2:#f7f8fa;
+    --accent:#1d5fbf; --warn:#a8331f; --ok:#0f6e56;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg2); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    font-size:14px; line-height:1.7; -webkit-font-smoothing:antialiased;
+  }
+  .page{max-width:920px; margin:0 auto; background:var(--bg); padding:48px 56px 64px; min-height:100vh}
+  h1{font-size:24px; font-weight:600; letter-spacing:.2px; margin:0 0 14px}
+  .meta{font-size:13px; color:var(--ink2); line-height:1.9; border-bottom:1px solid var(--line); padding-bottom:18px; margin-bottom:30px}
+  .meta b{color:var(--ink); font-weight:500}
+  .meta code{background:var(--bg2); border:1px solid var(--line); border-radius:4px; padding:1px 5px; font-size:12px; color:var(--ink2); margin-right:6px}
+  h2{font-size:17px; font-weight:600; margin:38px 0 14px; padding-left:11px; border-left:3px solid var(--accent)}
+  h2:first-of-type{margin-top:0}
+  .abstract{background:#f3f7fd; border:1px solid #d6e4f7; border-radius:10px; padding:18px 20px; font-size:14px; color:#243b5e}
+  .abstract strong{color:#14355e}
+  table{width:100%; border-collapse:collapse; margin:14px 0 8px; font-size:13px; table-layout:fixed}
+  th{background:#f5f6f8; color:var(--ink2); font-weight:500; text-align:left; padding:9px 10px; border-bottom:1px solid var(--line); white-space:nowrap}
+  td{padding:9px 10px; border-bottom:1px solid var(--line2); vertical-align:top; line-height:1.65}
+  tr:last-child td{border-bottom:1px solid var(--line)}
+  td:first-child{font-weight:600; color:var(--accent); font-variant-numeric:tabular-nums}
+  .c-date td:first-child, .c-time td:first-child{color:var(--ink); font-weight:500}
+  .dir{font-weight:500; color:var(--ok); white-space:nowrap}
+  .dir.threat{color:var(--warn)}
+  .conf{font-weight:500}
+  .hi{color:var(--warn); font-weight:600}
+  .turns{background:var(--bg2); border-radius:8px; padding:14px 18px; font-size:13px; color:var(--ink2); margin:14px 0}
+  .turns b{color:var(--ink)}
+  ol.acts{padding-left:0; list-style:none; counter-reset:a; margin:6px 0 0}
+  ol.acts li{counter-increment:a; position:relative; padding:14px 18px 14px 48px; background:var(--bg2); border-radius:8px; margin-bottom:10px; font-size:13.5px}
+  ol.acts li::before{
+    content:counter(a); position:absolute; left:16px; top:14px;
+    width:20px; height:20px; border-radius:50%; background:var(--accent); color:#fff;
+    font-size:12px; font-weight:600; display:flex; align-items:center; justify-content:center;
+  }
+  ol.acts li b{color:var(--ink)}
+  .tag{display:inline-block; font-size:11px; padding:1px 6px; border-radius:4px; background:#eef1f5; color:var(--ink2); margin-left:6px; vertical-align:1px}
+  footer{margin-top:40px; padding-top:16px; border-top:1px solid var(--line); font-size:12px; color:var(--ink3)}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <h1>PESTLE 宏观环境分析 — ChemAI（智辅化学）</h1>
+  <div class="meta">
+    <b>市场</b>：高中化学 AI 诊断（教师端）｜<b>地域</b>：湖南首发｜<b>日期</b>：2026-09-15｜<b>版本</b>：初稿·压缩版<br>
+    <b>素材</b>：<code>A1 政策摘抄本</code><code>A2 行业报告</code><code>A3 新闻剪报</code><code>A4 竞品页面</code><code>A5 调研笔记</code><code>A6 行业散表</code>
+  </div>
+
+  <h2>摘要</h2>
+  <div class="abstract">
+    <strong>天时许可，但有一道必须绕开的红线。</strong>顺风：物化捆绑（P1）、数字化战略加码（P2）、78% 教师称分析工作量不降反升（S1）、通用大模型化学不可靠（T1）；最大风险是 L4「严禁把试题输入 AI」与批量上传答题卡冲突，加上 S2「老师还是自己统计吧」的惯性。<strong>窗口期 2025-2027</strong>。
+  </div>
+
+  <h2>一、核心因素表（六维 19 因素）</h2>
+  <table>
+    <colgroup><col style="width:44px"><col><col style="width:96px"><col style="width:52px"><col style="width:84px"><col style="width:56px"></colgroup>
+    <thead><tr><th>编号</th><th>因素</th><th>方向·等级</th><th>概率</th><th>依据</th><th>置信度</th></tr></thead>
+    <tbody>
+      <tr><td>P1</td><td>物化捆绑：2024 年起理工农医类改「物理和化学」，覆盖 96.4% 专业</td><td class="dir">机会·极高</td><td>确定</td><td>A1·物化</td><td class="conf">高</td></tr>
+      <tr><td>P2</td><td>战略加码：《教育强国建设规划纲要》提「人工智能教育大模型」、教办〔2025〕3 号推进智能化</td><td class="dir">机会·极高</td><td>确定</td><td>A1·纲要</td><td class="conf">高</td></tr>
+      <tr><td>P3</td><td>双减压制搜题：原文「不得提供和传播『拍照搜题』等不良学习方法」，校外出清 &gt;90%</td><td class="dir">机会·高</td><td>确定</td><td>A1·双减</td><td class="conf">高</td></tr>
+      <tr><td>E1</td><td>盘子：教育信息化约 5,000 亿/年，K12 教学软件约 300 亿、诊断细分约 50 亿</td><td class="dir">机会·高</td><td>高</td><td>A2/A6·市场</td><td class="conf">中</td></tr>
+      <tr><td>E2</td><td>推理成本骤降：从约 70/140 元降至 2026Q1 约 0.2-0.5 元</td><td class="dir">机会＋威胁·中</td><td>高</td><td>A6·价格</td><td class="conf">中</td></tr>
+      <tr><td>E3</td><td>教师时间成本：时薪约 35-70 元，每次考试逐题分析 6-10 小时</td><td class="dir">机会·中</td><td>中</td><td>A6/A5·工时</td><td class="conf">中</td></tr>
+      <tr><td>S1</td><td>需求经验证：双减后 78% 中学教师称分析工作量不降反升、62% 需要诊断工具</td><td class="dir">机会·极高</td><td>确定</td><td>A2·调查</td><td class="conf">中</td></tr>
+      <tr><td>S2</td><td>行为惯性是最大替代：12 份教师问卷 <b>12/12</b> 靠「凭经验」判错因、<b>7/12</b> 工具止步于学科网，「我这样做了 15 年」「AI 准吗不敢全信」</td><td class="dir threat">威胁·极高</td><td>高</td><td>B4·问卷／B1·原话</td><td class="conf">高</td></tr>
+      <tr><td>S3</td><td>化学位势上升：物化双选 58.7%（+12.3pp）、21 省新高考；赋分「1 分→3-5 分」</td><td class="dir">机会·高</td><td>高</td><td>A2/A6·选科</td><td class="conf">中</td></tr>
+      <tr><td>S4</td><td>家长付费与信息不对称并存：家庭教育支出占收入 15-20%、&gt;70% 愿为提分付费</td><td class="dir">机会·中</td><td>中</td><td>A2·家庭</td><td class="conf">中</td></tr>
+      <tr><td>T1</td><td>通用大模型化学不可靠：配平实测错误率约 15%，不区分概念/审题/表达，不能批量处理</td><td class="dir">机会·高</td><td>高</td><td>A5·实测</td><td class="conf">高</td></tr>
+      <tr><td>T2</td><td>化学符号是专用难点：竞品方程式靠模板渲染、格式易错</td><td class="dir">机会·中</td><td>高</td><td>A4/A5·实测</td><td class="conf">高</td></tr>
+      <tr><td>T3</td><td>手写识别已成熟：讯飞中高考阅卷经验；OCR 约 5-8 元/千次、自部署 0 元</td><td class="dir">机会·中</td><td>高</td><td>A4/A6·单价</td><td class="conf">中</td></tr>
+      <tr><td>L1</td><td>《生成式人工智能服务管理暂行办法》：API 封装亦属「提供者」，须算法备案＋安全评估</td><td class="dir threat">威胁·高</td><td>确定</td><td>A1·备案</td><td class="conf">高</td></tr>
+      <tr><td>L2</td><td>《个人信息保护法》：不满 14 周岁信息属敏感个人信息，须单独同意＋事前 PIA</td><td class="dir threat">威胁·极高</td><td>确定</td><td>A1·个保法</td><td class="conf">高</td></tr>
+      <tr><td>L3</td><td>教育 App 备案＋等保（教技厅〔2019〕3 号）：「一省备案、全国有效」，违规入黑名单 6 个月</td><td class="dir threat">威胁·高</td><td>确定</td><td>A1·备案</td><td class="conf">高</td></tr>
+      <tr><td>L4</td><td>三条硬红线：白名单、数据本地化、<span class="hi">严禁把试题输入 AI</span></td><td class="dir threat">威胁·极高</td><td>确定</td><td>A1·指南</td><td class="conf">高</td></tr>
+      <tr><td>En1</td><td>校外出清＋投融资回暖：机构约 12 万→5,000 个，早期融资 300-800 万元</td><td class="dir">机会·中</td><td>高</td><td>A1/A2·机构</td><td class="conf">中</td></tr>
+      <tr><td>En2</td><td>宏观消费偏弱：2024 年土地出让收入同比降约 20%，教师收入年增 4-6%</td><td class="dir threat">威胁·低</td><td>中</td><td>A2/A6·宏观</td><td class="conf">低</td></tr>
+    </tbody>
+  </table>
+
+  <h2>二、政策时间线（依据 A1）</h2>
+  <table class="c-time">
+    <colgroup><col style="width:88px"><col></colgroup>
+    <thead><tr><th>年份</th><th>里程碑</th></tr></thead>
+    <tbody>
+      <tr><td>2018-19</td><td>《教育信息化 2.0 行动计划》「三全两高一大」；《中国教育现代化 2035》；教技厅〔2019〕3 号</td></tr>
+      <tr><td>2021</td><td>7-24「双减」；11-01《个人信息保护法》施行；8 省新高考首届落地</td></tr>
+      <tr><td>2022-23</td><td>工作要点第 28 条「实施教育数字化战略行动」；08-15《生成式人工智能服务管理暂行办法》；10-16 国务院令 766 号</td></tr>
+      <tr><td>2024</td><td>「人工智能赋能教育行动」启动；01-01 国务院令 766 号施行；选科改「物理和化学」</td></tr>
+      <tr><td>2025</td><td>《教育强国建设规划纲要》；教办〔2025〕3 号；三份 AI 指南（05）；「人工智能+」意见（08）</td></tr>
+    </tbody>
+  </table>
+  <div class="turns"><b>三个转折点</b>：① 2021 双减 → 校外出清、搜题点名，给「诊断」让路；② 2024 物化捆绑 → 需求结构性抬升；③ 2025 AI 进校规范化 → 白名单＋数据本地化，定产品形态。</div>
+
+  <h2>三、What-If 情景</h2>
+  <table>
+    <colgroup><col style="width:150px"><col><col style="width:150px"><col style="width:180px"></colgroup>
+    <thead><tr><th>情景</th><th>触发</th><th>后果</th><th>应对</th></tr></thead>
+    <tbody>
+      <tr><td>①政策收紧<br><span style="font-weight:400;color:#86909c;font-size:12px">最坏合理情况</span></td><td>白名单未获批，「AI 诊断」按试题输入从严执行</td><td>云端批量答题卡方案不可用</td><td>前置为「数据不出校」部署</td></tr>
+      <tr><td>②技术停滞</td><td>通用模型化学准确率 12 个月内未达可用线（报道 85%→92%）</td><td>垂类空间延长，信任更难建</td><td>坚持「教师终审」不承诺零误差</td></tr>
+      <tr><td>③大平台入场</td><td>讯飞落化学专项，或学科网被收购后补 AI 诊断（未核实）</td><td>价格与渠道被压制</td><td>单科深度＋2-4 周级迭代建切换成本</td></tr>
+    </tbody>
+  </table>
+
+  <h2>四、所以呢</h2>
+  <ol class="acts">
+    <li><b>现在进，窗口 2025-2027。</b>决定「进不进」的不是需求（S1、P1 已够），而是 L4 与 S2：前者要求「数据不出校」形态，后者要求首个体验零学习成本。→ 先定技术形态，再定城市。<span class="tag">P0</span></li>
+    <li><b>最大风险是合规红线，不是竞争对手。</b>L4 与「批量上传答题卡」正面对冲；建议把「试题不出校也能诊断」设为立项第一道闸门，过不了不进。<span class="tag">P0</span></li>
+    <li><b>首发湖南的宏观理由成立。</b>P1（华中/华南选考率 48-54% 高于均值）＋E1（湖南信息化预算约 78 亿元）＋En1（区域无单科纵深对手）三者同向，仍待 03 量化验证。<span class="tag">P1</span></li>
+  </ol>
+
+  <footer>
+    政策取自《政策文件摘抄本》，未作推断。骨架第七～十、十二章留待扩写版。<br>
+    <b>修订（2026-09-16）</b>：S2 原引「&gt;85% 教师仍手工统计」经核查在 A1-A6 与 B1-B6 中均无出处，已改用 B4 问卷／B1 访谈原始数据；②情景的「85%→92%」已标注为 A5·八 市场传言（未核实）。另：用户自开的验收线已找到出处——<b>15 分钟出报告</b>（B1·八）、<b>80% 分类一致率</b>（B1·一、B5·十一），详见《口径与班额裁定备忘》。
+  </footer>
+</div>
+</body>
+</html>

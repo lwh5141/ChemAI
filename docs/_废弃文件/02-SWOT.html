@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>02-SWOT 分析 — ChemAI（智辅化学）</title>
+<style>
+  :root{
+    --ink:#1f2329; --ink2:#4e5969; --ink3:#86909c;
+    --line:#e5e6eb; --line2:#f2f3f5;
+    --bg:#ffffff; --bg2:#f7f8fa;
+    --accent:#1d5fbf; --warn:#a8331f; --ok:#0f6e56; --amber:#8a5a00;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg2); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    font-size:14px; line-height:1.7; -webkit-font-smoothing:antialiased;
+  }
+  .page{max-width:1010px; margin:0 auto; background:var(--bg); padding:48px 56px 64px; min-height:100vh}
+  h1{font-size:24px; font-weight:600; letter-spacing:.2px; margin:0 0 6px}
+  .sub{font-size:12.5px; color:var(--ink3); margin-bottom:14px}
+  .meta{font-size:13px; color:var(--ink2); line-height:1.9; border-bottom:1px solid var(--line); padding-bottom:18px; margin-bottom:22px}
+  .meta b{color:var(--ink); font-weight:500}
+  .meta code{background:var(--bg2); border:1px solid var(--line); border-radius:4px; padding:1px 5px; font-size:12px; color:var(--ink2); margin:0 4px 4px 0; display:inline-block}
+  h2{font-size:17px; font-weight:600; margin:40px 0 14px; padding-left:11px; border-left:3px solid var(--accent)}
+  h2 .q{font-size:12px; font-weight:400; color:var(--ink3); margin-left:8px}
+  h2:first-of-type{margin-top:0}
+  h2.q-s{border-left-color:#1d5fbf}
+  h2.q-w{border-left-color:#c05621}
+  h2.q-o{border-left-color:#0f6e56}
+  h2.q-t{border-left-color:#a8331f}
+  table{width:100%; border-collapse:collapse; margin:14px 0 8px; font-size:13px; table-layout:fixed}
+  th{background:#f5f6f8; color:var(--ink2); font-weight:500; text-align:left; padding:9px 10px; border-bottom:1px solid var(--line)}
+  td{padding:10px; border-bottom:1px solid var(--line2); vertical-align:top; line-height:1.68}
+  tr:last-child td{border-bottom:1px solid var(--line)}
+  tbody tr:hover{background:#fafbfc}
+  td.id{font-weight:600; color:var(--accent); font-variant-numeric:tabular-nums; letter-spacing:.2px}
+  td.cf{white-space:nowrap}
+  .hi{color:var(--warn); font-weight:600}
+  .new{background:#eef7ee}
+  .new td.id{color:#0f6e56}
+  .tag{display:inline-block; font-size:11px; padding:1px 6px; border-radius:4px; white-space:nowrap}
+  .t-ok{background:#e6f4ef; color:#0f6e56}
+  .t-multi{background:#e8eefb; color:#1d5fbf}
+  .t-assume{background:#fdf3e0; color:#8a5a00}
+  .note{background:var(--bg2); border-radius:8px; padding:14px 18px; font-size:12.5px; color:var(--ink2); margin:14px 0; line-height:1.8}
+  .note b{color:var(--ink)}
+  .note ol{margin:6px 0 0; padding-left:20px}
+  .tows td.id{color:#0f6e56}
+  .quad{background:#f5f6f8}
+  .quad td{font-weight:600; color:var(--ink2); font-size:12px; letter-spacing:.5px; padding:6px 10px}
+  .insight{background:#fdf6f4; border:1px solid #f0d9d2; border-radius:10px; padding:20px 24px; margin:14px 0}
+  .insight .lead{font-size:15px; font-weight:600; color:#7d2716; margin:0 0 14px; line-height:1.6}
+  .insight ul{margin:0; padding-left:20px}
+  .insight li{margin-bottom:10px; font-size:13.5px; color:var(--ink2); line-height:1.72}
+  .insight li b{color:var(--ink)}
+  ol.acts{padding-left:0; list-style:none; counter-reset:a; margin:6px 0 0}
+  ol.acts li{counter-increment:a; position:relative; padding:16px 20px 16px 52px; background:var(--bg2); border-radius:8px; margin-bottom:10px; font-size:13.5px}
+  ol.acts li::before{
+    content:counter(a); position:absolute; left:18px; top:16px;
+    width:22px; height:22px; border-radius:50%; background:var(--accent); color:#fff;
+    font-size:12px; font-weight:600; display:flex; align-items:center; justify-content:center;
+  }
+  ol.acts li b{color:var(--ink)}
+  .p{display:inline-block; font-size:11px; font-weight:600; padding:1px 7px; border-radius:4px; margin-right:7px; vertical-align:1px}
+  .p0{background:#fbe9e5; color:#a8331f}
+  .p1{background:#fdf3e0; color:#8a5a00}
+  footer{margin-top:40px; padding-top:16px; border-top:1px solid var(--line); font-size:12px; color:var(--ink3); line-height:1.9}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <h1>SWOT 分析 — ChemAI（智辅化学）</h1>
+  <div class="sub">v3.3 · 已并入 02-定义（B1-B6）18 条证据 ＋ <b>反直觉洞察讲透</b> ＋ 候选主从关系 ＋ 四张判定卡 ＋ TOWS 去重 ＋ 行动建议加时间窗 ＋ 竞争含义逐行加固</div>
+  <div class="meta">
+    <b>市场</b>：高中化学 AI 诊断（教师端）｜<b>地域</b>：湖南首发，辐射华中/华南｜<b>日期</b>：2026-09-16<br>
+    <b>写作依据</b>：《SWOT 素材归并清单-核对底稿》（A/C 侧 59 条）＋《口径与班额裁定备忘》（B 侧 18 条）。全部因素可逐条追到素材章节，不新增素材以外的判断。<br>
+    <b>素材</b>：<code>A1 政策摘抄本</code><code>A2 行业报告</code><code>A3 新闻剪报</code><code>A4 竞品页面</code><code>A5 调研笔记</code><code>A6 行业散表</code><code>B1 教师访谈</code><code>B2 学生访谈</code><code>B3 家长访谈</code><code>B4 问卷原始数据</code><code>B5 田野笔记</code><code>B6 目标市场散表</code><code>C1 成本流水</code><code>C2 干系人备注</code><code>C3 功能脑暴</code><code>C4 技术选型</code><code>C5 合规清单</code><code>C6 报价散表</code><code>C7 产品规划</code><br>
+    <b>置信度</b>：<span class="tag t-ok">可查证</span> 政策原文/官方统计/官网页面/流水与代码/一手访谈实录　<span class="tag t-multi">多源</span> ≥2 处独立记录互证　<span class="tag t-assume">假设</span> 单点自评、未核实或无样本<br>
+    <b>本版新增行</b>以浅绿底标出（B 库来源）。
+  </div>
+
+  <div class="note">
+    <b>本轮四条口径裁定（详见《口径与班额裁定备忘》）</b>
+    <ol>
+      <li><b>M10 结案</b>：<code>&gt;85% 教师仍手工统计</code> 在 A1-A6 与 B1-B6 中都查无出处，<b>已弃用</b>；改用「12 份教师问卷 12/12 靠『凭经验』判错因、7/12 工具止步于学科网」（B4·一）。</li>
+      <li><b>市场规模只取有署名来源者</b>：主链只用 14,000 所普通高中、21 省 &gt;300 万选考生、50 亿诊断细分、5,000 元/班中值；A6 的班数两版（315,000 / 221,181）与 22-24 亿 TAM <b>退出主链</b>，仅作交叉校验。</li>
+      <li><b>班额三口径裁定</b>：成本与产能用 <b>50 份/班</b>；性能红线保留 90 份/15 分钟但改语义为「最坏情况单次并发」；单校班级数用 <b>6-10 个</b>；A6 的「23 人/班」与全部一手证据矛盾，<b>弃用</b>。</li>
+      <li><b>意外收获</b>：两条用户自开的验收线都找到了出处——<b>出报告 15 分钟</b>（B1·八）、<b>分类一致率 80%</b>（B1·一、B5·十一）。</li>
+      <li><b>TOWS 已按行动去重</b>（原 SO3 与 ST3 合并为一条），并新增 ST3「三不做」公开承诺；13 条每条对应一个产出物。</li>
+      <li><b>第六节「反直觉洞察」已讲透</b>（v3.3）：三把判定尺子 → 定位「被忽略」（记录了五次、执行零次）→ 四个结构性原因 → 门槛型机制（二值性／不可回填／成本不对称）→ 三候选裁决（<b>②是母题、①③是它的两个面</b>）→ <b>可证伪条件与无悔动作 ＋ 四张判定卡</b> → 两个时钟。</li>
+    </ol>
+  </div>
+
+  <h2 class="q-s">一、优势（Strengths）<span class="q">内部 / 积极 · S1-S21</span></h2>
+  <table>
+    <colgroup><col style="width:52px"><col><col><col style="width:64px"></colgroup>
+    <thead><tr><th>编号</th><th>因素（量化证据）</th><th>竞争含义</th><th>置信度</th></tr></thead>
+    <tbody>
+      <tr><td class="id">S1</td><td>化学单科专属诊断引擎：概念/审题/表达三类障碍分类（C3 两场脑暴、C7·F4）；团队自评信心 10/10</td><td>通用平台按"章节/知识点"统计，不会为单科重建错误归因体系。这是唯一被自评"领先"的维度，也是唯一<b>无实测数据</b>的维度（见 W8）</td><td class="cf"><span class="tag t-assume">假设</span></td></tr>
+      <tr><td class="id">S2</td><td>化学方程式四维审核（配平/条件/产物/结构）走<b>自建规则引擎硬判</b>，不交大模型拍板（C4·二、C3 便利贴墙、C7·F2）</td><td>讯飞、学科网均无方程式级审核。规则硬判把"配平零错"从模型概率问题变成工程确定性问题，是可对外承诺的差异点</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr><td class="id">S3</td><td>双层报告（教师详细版＋学生鼓励版），学生端/家长端<b>明确不做排名</b>（C3·十二、C7·F3/BC-05/06）</td><td>不排名＝政策与家长双重安全区。竞品的排名榜是家长投诉与政策风险集中源，我们主动放弃即时快感换合规确定性</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr><td class="id">S4</td><td>老师先审后发（识别完成不自动推学生）；有干系人原话"我得上眼过一遍"（C4·七、C2·张敏）</td><td>把"AI 替代老师"改写为"AI 给老师打下手"，直接拆掉 T5 里最重要的心理防线</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr><td class="id">S5</td><td>成本结构极轻：固定月成本约 <b>2,700-2,900 元</b>（服务器 498＋域名约 17＋LLM 100-125＋OCR 45-60＋顾问 2,000），纯运行 &lt;700 元/月，有逐笔流水（C1·八）</td><td>报价低至 3,000 元/班/年仍盈利。竞品的销售＋实施成本结构撑不到这个价位，价格战对我们是消耗战而非生死战</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr><td class="id">S6</td><td>单校边际成本约 <b>190 元/月</b>（LLM 50＋OCR 30＋服务器分摊 10＋支持 100）（C1·八）</td><td>每增 1 校几乎不增固定成本 → 可用"低价铺量"先圈住备课组长再谈价。⚠️ 按 6 班×2 次/月×50 份推算，未实测</td><td class="cf"><span class="tag t-assume">假设</span></td></tr>
+      <tr><td class="id">S7</td><td>已有真实试用与付费成交：张敏试用（首批识别等 15 分钟未走开）、组长A 9 班×5,000＝<b>45,000 元/年</b>、教师B 4 班×4,000＝<b>16,000 元/年</b>（C2、C6·三）</td><td>竞品没有的"从 0 到 1 已付费"证据。B 端最怕"只有 PPT"，6.1 万实收比任何参数都硬</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr><td class="id">S8</td><td>干系人网络已铺 <b>15 人</b>，覆盖四类决策角色＋家长＋市/省教研系统（C2 全表）</td><td>省教研系统＝低成本全省触达杠杆。竞品要打这个渠道得先有省级教育关系，我们已有入口</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr><td class="id">S9</td><td>转介绍已跑通：组长A 在备课组会展示报告、已问到 2 个同市同行；教师B 用"期末正确率＋8%"说服校长（C2）</td><td>B 端获客成本可趋近 0。一次备课组长展示≈一次免费区域路演——这是 1 人团队唯一能规模化的获客方式</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr><td class="id">S10</td><td>产品规格已细化到可直接排期：<b>26 模块</b>、7 核心功能、17 后端服务、约 <b>190 个 API 端点</b>（C7·一/二/六）</td><td>把"能不能做出来"从问号变成工程量问题；但同时也成为 W2 负债的来源。<br>→ 竞争上：竞品交付现成产品，我们交付按期做出来的项目，清单既是底气也是风险敞口</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr><td class="id">S11</td><td>评测体系（部分在编）：<b>673</b> 道基准题（7 类风险/14 维度）、<b>90</b> 道障碍诊断题、110 道安全审计题、<b>41</b> 道配平基准题、60+ 张真实答题卡 OCR 实测（C7·三）</td><td>垂类真护城河——竞品拿到同一批题也得重跑。⚠️ 673/90/110 原文为"打算攒"，需区分已建与计划</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr><td class="id">S12</td><td>技术路线有实测依据：放弃纯大模型识别（手写化学符号不稳、20-40 秒/张），改"云端 OCR 出文字坐标＋大模型结构化解析"（C4·一、C1 OCR 账单、A6 单价）</td><td>这个取舍是踩过坑才有的。通用 AI 团队的第一反应一定是"直接喂多模态"——他们会重复我们已排除的弯路</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr><td class="id">S13</td><td>合规提前介入并落到产品设计：数据不出境/境内对象存储/未成年人数据隔离/审计日志/BC-01~BC-10 行为红线（C4·十、C5、C7）</td><td>把 T1 的硬红线提前写进设计＝用工程换准入。竞品的通用产品改造成本远高于我们从零设计</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr><td class="id">S14</td><td>定价与商务条款已成型且有访谈锚点：<b>3,000/5,000/8,000 元/班/年</b>三档；备课组长"一个班 3,000-8,000 组内能自主"；免费试用 3 个月＋按学期付（C6·一/四、C2·张敏）</td><td>"组内自主"＝绕开校级采购的 2-4 个月决策周期（T6），成交周期可压缩到学期初</td><td class="cf"><span class="tag t-multi">多源</span><br><span style="font-size:11px;color:#86909c">标准版占 70% 为自估</span></td></tr>
+      <tr><td class="id">S15</td><td>北极星指标清晰：一个月内系统完成识别并给出≥1 项障碍分类的错题总数（同年同试不重复）（C3·十一、C4·十二）</td><td>单一指标让 1 人团队不靠仪表盘也能判断产品是否在起作用；且"不重复计"天然指向跨次追踪（见 O18）。<br>→ 竞争上：竞品以使用时长/题量计量，我们以诊断到几个障碍计量，绕开刷量式对比</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr><td class="id">S16</td><td>关键路径与工作量有估算：首个可用闭环单人约 <b>37 人天</b>、完整闭环约 45 人天、总量约 <b>150 人天</b>，产能约 <b>15 人天/月</b>（C3·六/八、C6·五）</td><td>约等于"大半年"。这是唯一能对外承诺的交付口径，也是 W1/W2 的量化底数。<br>→ 竞争上：竞品靠团队流水线交付，我们的进度＝一个人的产能，对交付时间的承诺比竞品脆弱</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr class="new"><td class="id">S17</td><td><b>产品边界红线由用户亲口划出</b>：张敏两次强调"我不要它自动替我把讲评 PPT 生成好，那是我的活"；B1·十二"一个反复出现的红线：一说'AI 替你判断/替你上课'，谈话就进行不下去了"（B1·一/十二）</td><td>S3/S4 不是团队洁癖，而是<b>用户验收条件</b>。竞品的"AI 接管"叙事在校内是负分项，我们不用争这一点</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr class="new"><td class="id">S18</td><td><b>交付验收线有用户原话锚点</b>：多位老师"<b>要是 15 分钟能给我一份报告，我就用</b>"（"不止一个老师提到这个门槛"）；张敏"考完 1 小时内拿到报告，告诉我这 6 个班这 40 道题<b>先讲哪 3 道、为什么</b>"（B1·八/十一）</td><td>这就是"首次体验 X 分钟"的外部答案：<b>X＝15 分钟</b>。需求侧自开的验收标准比自定目标更难被质疑，同时给 W6 的 OCR 速度定死了上限。<br>→ 竞争上：讯飞/学科网不会为 15 分钟出一份班级报告这级时延做承诺，这恰是通用产品形态的短板</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr class="new"><td class="id">S19</td><td>学生端价值已有单用户实测：李浩然 7 天内"盐类水解"3 级→4 级、4 周内"审题障碍"标签从 12 道降到 3 道、掌握率 58%→72%、系统估分 78-85（B2·四）</td><td>学生侧闭环不是设想。⚠️ N=1，只能作内部信心来源，不能对外宣称。<br>→ 竞争上：我们有实测但 N=1 不能公开，竞品却能拿规模化数据做宣传——这是 W17 样本量劣势在 C 端的投影</td><td class="cf"><span class="tag t-assume">假设</span></td></tr>
+      <tr class="new"><td class="id">S20</td><td>家长端价值已有 12 周观察记录：掌握率 45%→72%；周报推送 5 分钟内被点开；家长开始用周报内容与孩子对话（B3·三）</td><td>验证了"周报"这个 C 端形制有效，也是 C6 的 C 端定价偏低的证据（见 O19）。<br>→ 竞争上：家长侧无在位者提供学情叙述（O20），周报形制一旦验证成功，就是竞品要重新开发的入口</td><td class="cf"><span class="tag t-assume">假设</span></td></tr>
+      <tr class="new"><td class="id">S21</td><td>角色分层话术资产已成稿：5 类受众各一套说法＋校长三问（能不能提分/安不安全/多少钱）（B1·十二）</td><td>B 端销售最难的是"跟谁说什么"，我们已有草稿；卖通用产品的竞品只有一套话术</td><td class="cf"><span class="tag t-assume">假设</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="q-w">二、劣势（Weaknesses）<span class="q">内部 / 消极 · W1-W19</span></h2>
+  <table>
+    <colgroup><col style="width:52px"><col><col><col style="width:64px"></colgroup>
+    <thead><tr><th>编号</th><th>因素（量化证据）</th><th>竞争含义</th><th>置信度</th></tr></thead>
+    <tbody>
+      <tr><td class="id" style="color:#c05621">W1</td><td>单人团队，<b>Bus factor = 1</b>（C4·三"起步就一个人"、C3·八、C2 风险脑暴"创始人我一个人 burnout"）</td><td>竞品任一区域经理离职都不影响交付，我病一场即停摆。B 端能接受小公司，很难接受"只有一个联系人"</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr><td class="id" style="color:#c05621">W2</td><td>需求与产能严重不匹配：<b>26 模块/17 服务/约 190 端点</b> vs <b>15 人天/月</b>，总量约 150 人天（C7·六、C3·八、C6·五）</td><td>必须先砍到"单校可交付闭环"，否则任何销售承诺都会变成违约</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr><td class="id" style="color:#c05621">W3</td><td>移动端主动放弃、学生端触达受限：学生/家长不做独立 App，仅 Web＋微信 H5，且周一到周五多数学校收手机（C4·四/六、B2·一"周一到周五基本不能碰"）</td><td>学生侧数据回流慢 → 拖慢"掌握度"类功能验证节奏；竞品的原生 App 在此天然占优</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr><td class="id" style="color:#c05621">W4</td><td>数据库已知扩展隐患：SQLite 写锁在"9 班同传＋三端并发查"会卡；迁 PostgreSQL 预估 <b>10-15 人天</b>，<b class="hi">尚未迁</b>（C4·三）</td><td>校区数一旦超过约 3-5 所即触雷，而销售节奏不会等工程</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr><td class="id" style="color:#c05621">W5</td><td>单机架构起步，作者自认"最可能翻车"；微服务要"等 30 所以上再说"（C4·八及末尾备注）</td><td>可用性承诺没有冗余兜底，一次宕机就会消耗掉 S7 换来的信任</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr><td class="id" style="color:#c05621">W6</td><td>OCR 速度<b class="hi">未达 S18 的验收线</b>：纯大模型单张 20-40 秒 → 50 份/班需 <b>17-33 分钟，超 15 分钟</b>；张敏实测首批等了 15 分钟（C4·一/十一、C2、C3·九、B1·八）</td><td>"出报告多快"是客户唯一能当场感知的性能。这条不达标，S18 的验收线过不了——是产品能否被采用的<b>前置条件</b>，不是优化项</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr><td class="id" style="color:#c05621">W7</td><td>零误差目标与模型能力存在未消解缺口：规则引擎只覆盖"可程序判定"部分，<b>41 道配平基准"一道都不能错"</b>是红线（C4·二、C3·九、C7·三）</td><td>一旦对外承诺"零错"，任何一题翻车都是事故；竞品不作承诺反而没有这个风险敞口</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr><td class="id" style="color:#c05621">W8</td><td>障碍三分类准确率<b class="hi">无实测数据</b>：仅有自评信心分，无与资深老师的一致率（C3·三、C2·王顾问）；而用户已给出验收线（<b>≥80%</b>，B1·一、B5·十一）</td><td>S1 的核心卖点目前不可验证——客户问"准不准"，我们答不出数字。缺的不是目标，是实测</td><td class="cf"><span class="tag t-assume">假设</span></td></tr>
+      <tr><td class="id" style="color:#c05621">W9</td><td>多智能体架构未定型、路由准确率不达标：v1（Coordinator＋6 子 Agent）路由准确率仅 <b>70-75%</b>；v2（单 Agent ReAct＋4 Persona＋30 工具）仍在评估（C7·五）</td><td>架构未定 → 性能与成本都不可预估，是排期最大的不确定源</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr><td class="id" style="color:#c05621">W10</td><td>行为约束 BC-01~BC-03、BC-08 尚未补全（C7·四："还乱着""具体措辞还没定"）</td><td>约束是产品护栏。缺护栏时出问题不是技术事故，而是价值观事故</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr><td class="id" style="color:#c05621">W11</td><td><b class="hi">合规手续多处未办</b>，C5 清单全部为未打勾项：14 周岁以下单独同意、PIA、ICP 备案、等保定级、是否算"教育 App"、是否需算法备案（C5 全部 [ ]）</td><td>T1/T2/T3/T4 全是<b>已生效</b>的硬约束，我们却是"知情未办"状态——当前最大合规敞口（详见第六节）</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr><td class="id" style="color:#c05621">W12</td><td>定价与商务条款未经实签验证：标准版占 70% 为自估、弹性 5 档未定、续约率 ≥80% 是目标非现状、合同"还没正式签过"（C6·一/四/六）</td><td>S7 的成交属"意向＋小额"；没有合同模板就没有可复制的商务动作</td><td class="cf"><span class="tag t-assume">假设</span></td></tr>
+      <tr><td class="id" style="color:#c05621">W13</td><td>市场测算基础不稳（部分已裁定）：化学选考生三值互斥、班数两版差 30%、TAM 数学不自洽（A6 多处，M1-M4）</td><td>口径已按"只取有署名来源者"裁定，但 A6 的班数两版与 22-24 亿 TAM 需在 03 重算后才能对外</td><td class="cf"><span class="tag t-assume">假设</span></td></tr>
+      <tr><td class="id" style="color:#c05621">W14</td><td>对外依赖链长且无兜底：OCR＋LLM 双外部依赖，涨价/不可用仅记"多接一家，别吊死一棵树"；PaddleOCR 备胎是否维护未定（C4·十三、C1 六月两家同时充值）</td><td>成本优势（S5）建立在 API 单价继续下行的假设上，单价反转会直接吃掉毛利</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr><td class="id" style="color:#c05621">W15</td><td>关键工程问题未决：识别排队规则未定（9 班同传怎么排、是否按班优先级）、单机 vs 租带 GPU 机器未定（C4·十三）</td><td>这决定"多校并发"能不能承诺，属签单前必须回答的问题</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr><td class="id" style="color:#c05621">W16</td><td>未经核实的关键假设（房间里的大象）：校长可能根本没仔细看过报告就批了字；免费期过长、一直没收入（C3·十三 纸老虎/房间里的大象）</td><td>S7 的"成交"含金量可能被高估——若决策者没看报告，续约率就是未知数。<br>→ 竞争上：在位者的续约惯性（T10 约 85-90%）会先站稳，我们连一次真正的价值验证都还没拿到</td><td class="cf"><span class="tag t-assume">假设</span></td></tr>
+      <tr class="new"><td class="id" style="color:#c05621">W17</td><td><b>一手证据样本量小且窄</b>：教师问卷 <b>12 份</b>、家长问卷 <b>25 份</b>（月费追问仅 18 位）、学生访谈 <b>4 人</b>（B4、B2）；B4 自标"正式调研量不够……大样本建议 ≥100 位家长、3 所学校×30+、4 个城市"</td><td>这些数字不能对外当调研结论；投资人一问样本就穿。B 端可用的只有 12 份，做不了行业断言</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr class="new"><td class="id" style="color:#c05621">W18</td><td>进入顺序的依据仍是"自己的草稿"：B6 城市打分权重原文"是我瞎定的"、学校清单代号待核实、竞争分布"从各渠道听来的，没核实"</td><td>第一批城市选错要浪费整个窗口期；市场进入序必须先补实地核查</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr class="new"><td class="id" style="color:#c05621">W19</td><td><b>自有证据内部尚未收敛</b>：班额（B5 观察 90 份/班 vs B1 访谈 52/50 人/班）、湖南化学班数（26,400 vs 18,720）；且 <b>B4 的 12 列表与 A6 的多张表都没有表头</b>，列义靠推定</td><td>在把表头列义定死之前，任何"我们调研过"的说法都站不住；这类问题会在尽调现场被一次性击穿。<br>→ 竞争上：竞品有的是公开可查的平台级数据，我们的一手数据若不收敛，连更懂老师这句都守不住</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="q-o">三、机会（Opportunities）<span class="q">外部 / 积极 · O1-O21</span></h2>
+  <table>
+    <colgroup><col style="width:52px"><col><col><col style="width:64px"></colgroup>
+    <thead><tr><th>编号</th><th>因素（量化证据）</th><th>竞争含义</th><th>置信度</th></tr></thead>
+    <tbody>
+      <tr><td class="id" style="color:#0f6e56">O1</td><td>物化捆绑抬高化学位势：2024 年起理工农医类由"物理或化学"改"物理和化学"，专业覆盖率 <b>96.4%</b>，<b>45.07%</b> 本科专业要求双选（A1·物化捆绑、A2·五）</td><td>化学从"可选"变"必选"，选考基数与教师重视度同时上台阶。这是我们全部测算的起点</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr><td class="id" style="color:#0f6e56">O2</td><td>教育数字化国家战略持续加码：《教育强国建设规划纲要(2024-2035 年)》提"打造人工智能教育大模型"；教办〔2025〕3 号专章"全面推进智能化"；2025.8 国务院"人工智能+"行动意见（A1 各节、A3）</td><td>政策在给"AI＋学科"发通行证。站在鼓励期内做产品，合规与推广摩擦最小</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr><td class="id" style="color:#0f6e56">O3</td><td>AI 进校有明确政策窗口：2024.3 教育部启动"人工智能赋能教育行动"；2025 年密集出台三份指南；2025 升级为"国家教育数字化战略行动 2.0"（A1、A3）</td><td>窗口期判断：<b>2025-2027</b> 是"鼓励"与"规范"并存的区间。进得早可占位，进得晚要拿合规当入场券</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr><td class="id" style="color:#0f6e56">O4</td><td>双减定向压制搜题类，为"诊断"让路：原文"不得提供和传播'拍照搜题'等不良学习方法"；不再审批面向普通高中的学科类培训机构（A1·双减 2021-07-24、A3·2021）</td><td>"给答案"路线有政策风险，"给诊断"路线相对安全——等于监管替我们清掉了一整类竞争者</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr><td class="id" style="color:#0f6e56">O5</td><td>需求经第三方验证：双减后 <b>78%</b> 中学教师表示考试分析工作量不降反升，<b>62%</b> 表示需要教学诊断工具（A2·六，2024 中国教科院调查）</td><td>需求侧最强外部证据，且来自官方智库，可直接用于对外材料而无需自证</td><td class="cf"><span class="tag t-ok">可查证</span><br><span style="font-size:11px;color:#86909c">单一出处</span></td></tr>
+      <tr><td class="id" style="color:#0f6e56">O6</td><td>赛道盘子与结构：教育信息化约 5,000 亿/年 → K12 约 2,000 亿（40%）→ K12 教学应用软件约 300 亿 → 教学诊断/学情分析细分约 <b>50 亿</b>（A2·一、A6）</td><td>50 亿细分是"可被单科切走"的现实蛋糕，比 5,000 亿更适合做融资叙事的说明（口径已裁定取此链）</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr><td class="id" style="color:#0f6e56">O7</td><td>采购向软件与年费制迁移：数字化教学工具占信息化预算 15%(2022)→<b>25%(2025)</b>；云服务/年费制占学校信息化采购 15%(2021)→<b>35%(2025)</b>（A2·一/七）</td><td>年费制接受度翻倍＝我们的 SaaS 定价模型正好落在趋势上，不必教育市场</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr><td class="id" style="color:#0f6e56">O8</td><td>化学选考位势上升：物化双选 <b>58.7%</b>（较 2023 年＋12.3 个百分点）；21 省实施新高考，化学选考合计 <b>&gt;300 万人/年</b>（教育部 2025 年统计，A2·五）</td><td>选考人数＝我们的分母。58.7% 且上行，意味着"化学班"这门生意在变厚而非变薄。<b>口径已裁定取此值，弃 580-600 万</b></td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr><td class="id" style="color:#0f6e56">O9</td><td>赋分放大效应可作价值锚点：化学原始分 1 分之差，赋分后可能放大到 <b>3-5 分</b>（A6·选科与考试）</td><td>"1 分变 3-5 分"比任何形容词都能解释为何值得为诊断付费。⚠️ 未标口径与来源，对外使用前需补核实。<br>→ 竞争上：通用 AI 与题库都能解释 1 分差，只有诊断者能把它落到该补哪个障碍——这句话的归属权在我们这边</td><td class="cf"><span class="tag t-assume">假设</span></td></tr>
+      <tr><td class="id" style="color:#0f6e56">O10</td><td>家长付费意愿明确：超 <b>70%</b> 高三家长愿为提分工具额外付费；家庭教育支出占家庭收入 15-20%（OECD 平均约 8%）（A2·二、A6、B3·一"超过七成家长都愿意掏这个钱"）</td><td>为 C 端叠加层（家长报告）留了口子；当前 B 端主线下不宜提前消耗品牌。<br>→ 竞争上：猿/学而思在家长侧要么搜题、要么卖硬件，不提供学情叙述（O20），这笔付费意愿目前无人承接</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr><td class="id" style="color:#0f6e56">O11</td><td>校外出清、校内成主战场：学科类培训机构从约 12 万个锐减到约 5,000 个，压减率 <b>&gt;90%</b>（A1·双减、A2·四、A3·2021）</td><td>"提分"需求没消失，只是从机构转移到校内——我们服务的正是被留下的那一方</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr><td class="id" style="color:#0f6e56">O12</td><td>通用大模型在化学上不可靠，留下垂类空间：实测配平错误率约 <b>15%</b>、反应条件常漏标；不区分概念/审题/表达；不能批量传答题卡、无班级仪表盘；对话间数据不连续（A5·六）</td><td>免费竞品越普及，"不可靠"越被亲身体验到——这是垂类最省力的心智教育。⚠️ 单次实测、未记样本量</td><td class="cf"><span class="tag t-assume">假设</span></td></tr>
+      <tr><td class="id" style="color:#0f6e56">O13</td><td>直接竞品均无化学单科纵深：学科网"完全不做分析"、不碰 OCR/AI 诊断/自适应；好未来化学教研投入占比 <b>&lt;10%</b>、无化学专项；讯飞学情分析只到"章节"粒度、不区分错误类型（A5·一/三/四、A4）</td><td>四家都停在"学科无关"层，没人愿为单科重建归因体系——这是 S1/S2 的市场依据</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr><td class="id" style="color:#0f6e56">O14</td><td>省教研系统是低成本触达杠杆：省化学教研会一年 <b>2-3 次</b>，参会 <b>200-300 人</b>，覆盖全省约 <b>30-40%</b> 的重点高中化学备课组长；市教科院每年组织 <b>3-4 次</b>全市教研（A6·湖南、B1·一）</td><td>一次参会≈触达全省 1/3 的目标决策者，是 1 人团队唯一可复制的规模化获客通道（与 S8/S9 咬合）</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr class="new"><td class="id" style="color:#0f6e56">O15</td><td><b>耗时被逐环节量化</b>：B5 秒表实测一个班全流程 <b>415 分钟</b>（判卷 2-2.5h、画正字 1-2h、凭经验排重点 30min、做讲评 PPT 1-2h）；B4 问卷 12 份单次 <b>3-10 小时（中位约 7 小时）</b>；一年约 240 小时≈30 个工作日（B5·二、B4·一、B1·一/十）</td><td>可攻击的环节清晰（画正字→排重点→做 PPT），不只是"统计慢"。这是我们价值主张的算术底座，也是 T9 定价锚的来源。<br>→ 竞争上：竞品卖分析结果，我们卖知道该先讲哪几道，攻击点落在他们的产品定义之外</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr class="new"><td class="id" style="color:#0f6e56">O16</td><td><b>讲评课严重低效</b>：B5 现场数过一节讲评课逐题讲 15 道，其中至少 <b>8 道全对率 &gt;90%</b>、根本不用讲；真正该讲的只有 3-5 道（B5·三/十）</td><td>价值不止省时间，还能<b>提高课堂有效性</b>——这是校长最买账的口径（"能不能提分"）。竞品都在卖"分析"，没人卖"少讲哪几道"</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr class="new"><td class="id" style="color:#0f6e56">O17</td><td><b>错因误判普遍且可量化</b>：新手把审题错当概念错的概率约 <b>40%</b>（B1·二 组长A"十次里得有四回"；B5·五 现场观察到一例；B4 第 9/10 份自述"组里新老师讲评总跑偏""我还年轻，真的会归错原因"）</td><td>S1 三类障碍分类的价值被"误判率 40%"直接量化，这是需求侧最硬的一条。它同时是 S1/S2 的<b>对照基线</b>：我们的分类一致率必须显著优于 40% 才有意义</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr class="new"><td class="id" style="color:#0f6e56">O18</td><td><b>跨次追踪是空白需求</b>：B1·一/八"统计完就完了，这个月考的数据下个月就找不到了"；张敏想查一个学生"氧化还原到底出过几次问题"只能凭记忆——学生刘洋 72→65→58，到第三次月考才发现一路在退（B1·十一）</td><td>竞品都在做"这一次的分析"，没人做"跨次的追踪"。这是最干净的空白，且与 S15 北极星（同年同试不重复计）天然对齐</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr class="new"><td class="id" style="color:#0f6e56">O19</td><td><b>家长端付费意愿有一手区间</b>：18 位愿付家长月费落在 <b>30-150 元、集中 60-100</b>（B4·三）；"超过七成家长愿意掏钱"（B3·一）；高三家长月均补习＋教辅支出 500-2,000 元（B3·一、A6）</td><td>C 端叠加层有真实定价锚，且<b>高于 C6 现设的 19.9/39.9 档</b>——现有 C 端定价偏低，是可上调的空间。⚠️ 样本仅 18 位。<br>→ 竞争上：竞品在家长侧无对应产品，这个价格区间目前没有参照物可被拿来压价</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr class="new"><td class="id" style="color:#0f6e56">O20</td><td><b>家长端供给空心化</b>：家长会一学期一次、老师"群里一两句说不清"、家长群里 8 位家长追问无果；已有家长在打听"有没有那种每周给家长发学情报告的东西"（B3·一/四）</td><td>家长端没有在位者，学校渠道自身供给不足，且需求已被家长自发表达。竞品在家长侧要么是搜题要么是卖硬件，不提供学情叙述</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr class="new"><td class="id" style="color:#0f6e56">O21</td><td><b>沙滩头市场清单已成型</b>：5 城（长沙/株洲/湘潭/衡阳/岳阳）<b>30-42 所</b>省级示范性高中、每校高三化学班 <b>6-10 个</b>（合计 180-420 班），按 5,000 元/班/年 → 年收入潜力 <b>90-210 万元</b>；3 年可赢目标 10-15 所（B6·五）</td><td>这是<b>有名单可执行</b>的 SOM，比全国 TAM 更能指导动作。→ 竞争上：在位者以校为单位铺量、靠续约惯性守盘（T10），我们以班为单位切入，名单越小越能绕开正面碰撞。⚠️ 校数系网络整理、城市权重原文自标"瞎定"</td><td class="cf"><span class="tag t-assume">假设</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="q-t">四、威胁（Threats）<span class="q">外部 / 消极 · T1-T16</span></h2>
+  <table>
+    <colgroup><col style="width:52px"><col><col><col style="width:64px"></colgroup>
+    <thead><tr><th>编号</th><th>因素（量化证据）</th><th>竞争含义</th><th>置信度</th></tr></thead>
+    <tbody>
+      <tr><td class="id" style="color:#a8331f">T1</td><td><b class="hi">政策硬红线与产品形态正面对冲</b>：白名单制度、数据本地化、"严禁把试题输入 AI"，与"批量上传答题卡做 AI 诊断"直接冲突（A1·《中小学生成式人工智能使用指南(2025 年版)》）</td><td>"数据不出校"可能是<b>准入前提而非加分项</b>。竞品的通用云架构在这条上比我们更难改</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr><td class="id" style="color:#a8331f">T2</td><td>生成式 AI 准入成本：API 封装/嵌套提供也算"提供者"；具舆论属性或社会动员能力须算法备案＋安全评估（A1·《生成式人工智能服务管理暂行办法》，网信办等七部门令第 15 号，2023-08-15 施行）</td><td>即使我们只是"套壳"，法律上也是提供者——合规成本不能按"小团队"打折</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr><td class="id" style="color:#a8331f">T3</td><td>未成年人数据强约束：不满 14 周岁个人信息属敏感个人信息，须单独同意＋事前 PIA（A1·PIPL 2021-11-01 施行、C5·一）</td><td>高中生多为 14-18 岁，虽非全部触发"14 岁以下"条款，但敏感信息处理仍需独立同意与影响评估（链接 W11）</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr><td class="id" style="color:#a8331f">T4</td><td>教育 App 备案与等保是准入门槛：教技厅〔2019〕3 号，"一省备案、全国有效"，违规入黑名单 <b>6 个月</b>（A1、C5·二）</td><td>进校销售的法定前置条件。黑名单 6 个月对 1 人团队＝出局</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr><td class="id" style="color:#a8331f">T5</td><td><b class="hi">"手工统计"行为惯性是最大替代方案</b>：老师原话"我已经这样做了 15 年，你让我换？换了我不会""我手动统计一道大题只要 15 分钟""机器判断的准吗？我可不敢全信""手动统计我能发现不明显的错误规律，机器能吗？"（A5·五、B1·五/八）</td><td>最强的敌人——它不投标、不降价，只需老师"什么都不做"。⚠️ 原 <code>&gt;85% 教师仍手工统计</code> 无出处，已弃用；改用「12 份问卷 12/12 靠凭经验判错因」（B4·一）</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr><td class="id" style="color:#a8331f">T6</td><td>采购决策链长、预算季节性强：决策周期 <b>2-4 个月</b>、纳入年度预算 <b>6-9 个月</b>；学校年度收入 <b>60-70%</b> 集中在 Q3-Q4；学校年度信息化预算 10-30 万元（A5·七、B1·七"采购得走学校流程，我做不了主"、A6）</td><td>销售节奏被校历锁死：错过 Q3 立项要等一年。这也放大了 S14"组内自主"的价值</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr><td class="id" style="color:#a8331f">T7</td><td>价格锚定压力：学科网全科包仅 <b>2,000-10,000 元/校/年</b>，与"化学单科深做"之间需解释成本差异（A4·学科网、A5·七；B1·二组长A 原话"学校统一买了学科网，<b>一年 2000 块钱</b>"）</td><td>客户会拿"全科包"比"单科包"，我们必须把深度诊断从功能差异讲成单位成本差异。⚠️ A6 压缩版"200-10,000 元"混了 C 端个人版，弃用</td><td class="cf"><span class="tag t-ok">可查证</span></td></tr>
+      <tr><td class="id" style="color:#a8331f">T8</td><td>通用大模型免费或极低价、成本仍在降：豆包/Kimi 完全免费；LLM 单价从 2024Q1 约 70/140 元降至 2026Q1 约 <b>0.2-0.5 元</b>（A4、A6）</td><td>双刃剑：它让 S5 的成本优势更牢，也让"为什么不用免费的"成为每场销售的第一个问题</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr><td class="id" style="color:#a8331f">T9</td><td>教师端付费能力受限：化学老师月薪 <b>6,000-12,000 元</b>（湖南地级市）、时薪约 <b>35-70 元</b>；单次逐题分析 6-10 小时（A6·老师、A5·七、O15）</td><td>按 35-70 元/时折算，一次分析的人工成本约 210-700 元——这是定价的意义锚点，也是"太贵"抱怨的参照系。<br>→ 竞争上：免费工具把老师的时间成本隐含定价为 0，太贵的抱怨多半来自这个隐形对照，而非真实预算</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr><td class="id" style="color:#a8331f">T10</td><td>在位者已有渠道与续约基础：智学网续约率约 <b>85-90%</b>、学科网约 <b>75-85%</b>；讯飞页面称"覆盖数万所学校"（A2·七、A4·科大讯飞）</td><td>他们有存量客户与续约惯性。我们只能从"未被覆盖的深度需求"切入，不能正面替换</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr><td class="id" style="color:#a8331f">T11</td><td>地方财政收紧：2024 年全国土地出让收入同比下降约 <b>20%</b>；财政性教育经费占 GDP <b>4.01%</b>（2024 年）（A6、A2·一、B4 第 8 份"没预算，一个班 3000 都紧张"）</td><td>学校预算总量承压 → 单笔金额越小越容易过会，反过来利好 S14 的"组内自主"档位。<br>→ 竞争上：竞品的销售＋实施成本结构（S5）撑不到 3,000 元档，财政越紧，我们的低价档越有相对优势</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr><td class="id" style="color:#a8331f">T12</td><td>竞品可能入场（未核实）：讯飞有往"学科专属诊断"走的意思（暂无招聘化学教研岗动静）；学科网若被大平台收购，AI 诊断路线可能变（A5·八 市场传言，原文自标未核实）</td><td><b>不用于结论</b>，仅作季度监控信号：一旦讯飞发布化学专项页，动作从"教育市场"切到"抢装机"</td><td class="cf"><span class="tag t-assume">假设</span><br><span style="font-size:11px;color:#86909c">明确未核实</span></td></tr>
+      <tr><td class="id" style="color:#a8331f">T13</td><td>规模测算基础不稳，会被追问：化学选考生三个互斥口径；全国化学班数两值差 <b>30%</b>（A6 多处，M1-M3）</td><td>口径已裁定（取 14,000 校 / &gt;300 万 / 50 亿），但班数需在 03 重算；在此之前销售材料不出现总量数字。<br>→ 竞争上：竞品用平台级总量数据讲叙事，我们的数字若互相打架，销售现场会输在第一页</td><td class="cf"><span class="tag t-assume">假设</span></td></tr>
+      <tr class="new"><td class="id" style="color:#a8331f">T14</td><td><b>行为惯性已分层量化，拒绝理由分三类</b>：12 份问卷中 3 份明确不愿/观望——第 7 份"学校没钱，<b>我也不会用新东西</b>"（用纸笔几十年）、第 8 份"没预算，一个班 3000 都紧张"、第 12 份"不确定，得看校长"（B4·一、B1·五）</td><td>T5 从"几句原话"升级为<b>分层阻力</b>：三种理由要三套打法（免学习成本／低价档／给一致率数字）。竞品用一套"AI 更强"的话术打不动其中任何一类</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr class="new"><td class="id" style="color:#a8331f">T15</td><td><b>追加采购会撞上"刚买过的东西"</b>：B1·五 老教师"学校刚上了一套阅卷相关的，花了钱，先使一阵看看再说。你说再买一个，校长也烦"；B4 第 4 份"刚买了讯飞先用着"</td><td>在已购讯飞/阅卷系统的学校，我们打"补位"不打"替换"，并要等"已购疲劳期"过去。这类学校应从首批名单里降到第二批（与 O21 的进入序冲突需处理）</td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+      <tr class="new"><td class="id" style="color:#a8331f">T16</td><td><b>教师年龄结构天然抑制采纳</b>：教龄 ≥15 年约占 <b>45%</b>（15-25 年约 30%、25 年以上约 15%）（B1·十、A6·老师）</td><td>近半数老师在"不想学新东西"的年龄段，产品必须做到"<b>不需要学</b>"。这给 S18 的"15 分钟出报告"加了第二重含义：不是快，是<b>零学习成本</b></td><td class="cf"><span class="tag t-multi">多源</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2>五、TOWS 战略矩阵<span class="q">已按行动去重 · 13 条策略，每条一个产出物</span></h2>
+  <div class="note">
+    <b>去重说明</b>：原 <b>SO3</b>（低价铺量）与 <b>ST3</b>（组内自主绕开校级流程）是同一件事，<b>合并为一条</b>；<b>SO2</b> 与 <b>WO2</b> 都涉及"跑实测"，但前者<b>对外证伪竞品</b>、后者<b>对内过用户验收线</b>，产出物与判定标准不同，<b>刻意保留为两条</b>；新增 <b>ST3</b>「三不做」公开承诺（回应第六节候选③）。
+  </div>
+  <table class="tows">
+    <colgroup><col style="width:54px"><col style="width:29%"><col><col style="width:152px"></colgroup>
+    <thead><tr><th>编号</th><th>组合（内部 × 外部）</th><th>具体策略</th><th>产出物</th></tr></thead>
+    <tbody>
+      <tr class="quad"><td colspan="4">S × O ｜ 进攻 —— 有牌可打，且天时在</td></tr>
+      <tr><td class="id">SO1</td><td>S8 省教研入口 ＋ S9 转介绍已跑通 × O14 省教研会 2-3 次/年覆盖 30-40% 备课组长、市教研 3-4 次/年</td><td><b>唯一获客动作</b>：每学期 2 场省级教研会，现场出一份本校真实报告；会后 48 小时内跟进到备课组长，让 O14 的一次触达变成 S9 的一次转介绍</td><td>一份"现场出报告"SOP ＋ 教研会名单</td></tr>
+      <tr><td class="id">SO2</td><td>S2 规则引擎硬判 ＋ S11 评测体系 × O13 竞品无单科纵深 ＋ O12 通用 AI 配平错误率约 15% ＋ O17 手工误判率约 40%</td><td><b>对外证伪材料</b>：41 道配平题的三方对照表（ChemAI / 通用大模型 / 手工）。攻击点不是"我们更准"，而是"通用 AI 错 15%、人工错因判断错 40%"——把同行的错误率当我们的产品说明书</td><td>一页对照表（可印可投）</td></tr>
+      <tr><td class="id">SO3</td><td>S5 极轻成本 ＋ S6 单校边际 190 元/月 ＋ S14 组内自主三档 × O7 年费制 15%→35% ＋ O11 需求转入校内 ＋ O21 沙滩头 180-420 班 ＋ T6 采购周期 2-4 个月 ＋ T11 财政收紧 ＋ T15 已购讯飞</td><td><b>低价装机换定价权</b>：主攻"备课组长组费自主"档（3,000 元/班/年）绕开校级流程，把销售周期从"年度立项"压到"学期初"；对已购讯飞/阅卷机的学校改打"补位"并排到第二批；话术按预算档拆分（B4 第 8 份"一个班 3000 都紧张"→基础档）。<span style="color:#86909c">本行合并了原 SO3 与 ST3</span></td><td>分档报价单 ＋ 首批校名单（含"第二批"标注）</td></tr>
+      <tr><td class="id">SO4</td><td>S15 北极星指标（同年同试不重复计）＋ S3 双层报告不做排名 × O18 跨次追踪是空白需求</td><td><b>把"跨次追踪"做成对外第一句话</b>——正面回答"统计完就完了，下个月就找不到"；试用期钩子用"学生级趋势页"（刘洋 72→65→58 这类一路下滑能被提前发现）。这是四家竞品都没做的那一块</td><td>学生级趋势页（MVP 内）</td></tr>
+      <tr class="quad"><td colspan="4">S × T ｜ 防御 —— 用我们的强项挡外部风险</td></tr>
+      <tr><td class="id">ST1</td><td>S13 合规提前介入 ＋ S3 不做排名 ＋ S4 老师先审后发 ＋ S17 红线由用户划出 × T1/T2/T3/T4 白名单、数据本地化、严禁试题入 AI、教育 App 备案、算法备案</td><td><b>把红线写进规格书</b>：T1 三条红线（数据不出校/境内存储/教师终审）落成产品规格的硬约束，C5 清单 20 项自查压成"签单前必须打勾清单"。S17 让合规变正面卖点：用户本来就不接受"AI 替你判断"，不做这个功能既省钱又拿分</td><td>规格书红线章节 ＋ 签单前打勾清单</td></tr>
+      <tr><td class="id">ST2</td><td>S11 评测体系 ＋ S7 真实成交（6.1 万实收） × T7 价格锚定（学科网 2,000 元/校/年）＋ T10 在位者续约率 85-90%</td><td><b>在位者替换不动，就换尺子</b>：不比每校总价，比"每班每次考试的单位诊断成本"；用 B1 组长A 的"一年 2000 块钱"说明那笔钱买的是题库不是诊断；公开 6.1 万实收证言，从"未被覆盖的深度需求"切入</td><td>单位成本对照页 ＋ 客户证言卡</td></tr>
+      <tr><td class="id">ST3</td><td>S3 不做排名 ＋ S4 老师先审后发 ＋ S17 用户划出的红线 × T5/T14 行为惯性（三类拒绝理由）＋ O20 家长端供给空心化</td><td><b>把"三不做"做成可引用的公开承诺</b>：不排名、不做拍照搜题、不替老师拍板。对老师答"AI 抢你判断"、对家长答"不排名只讲进步与薄弱"、对校方答"无投诉风险"。竞品无法跟进——排名榜是它们的产品核心</td><td>一页《我们不做的事》（对外可用）</td></tr>
+      <tr class="quad"><td colspan="4">W × O ｜ 改善 —— 机会在，但我们缺能力，先补短板再吃</td></tr>
+      <tr><td class="id">WO1</td><td>W1 单人团队 ＋ W2 26 模块 vs 15 人天/月 × O3 窗口期 2025-2027 仅约 2 年</td><td><b>把 190 个端点砍到"单校可交付闭环"</b>（对应 S16 的 37-45 人天），放弃移动端与运维类模块。用"少做"换窗口期内跑通 3-5 所学校</td><td>砍完后的 MVP 范围表</td></tr>
+      <tr><td class="id">WO2</td><td>W8 诊断准确率无实测 ＋ W6 OCR 超 15 分钟 ＋ W7 零误差缺口 × O13 竞品仍无单科纵深 ＋ O17 误判基线 40% ＋ S18 验收线 15 分钟 / 80%</td><td><b>对内过线</b>（与 SO2 分工：SO2 对外证伪，本条对内验收）：90 道诊断题跑出 vs 2 位资深化学老师的一致率，目标 <b>≥80%</b>、对照基线 40%；同时 50 份/班端到端压到 <b>≤15 分钟</b>（当前 17-33 分钟）。<b>两个数字不达标，SO2 的材料就不能发</b></td><td>一致率实测报告 ＋ 端到端耗时记录</td></tr>
+      <tr><td class="id">WO3</td><td>W11 合规手续全未办 ＋ W12 商务条款未实签 × O2/O3 政策鼓励期 ＋ O7 年费制趋势</td><td><b>上线前办完三项判定</b>（ICP 备案、等保定级、"是否属教育 App"）＋ 定稿一份可复制的合同与报价模板（把 C6 草稿变成能签的文件），让"政策鼓励期"真的能变现</td><td>判定结论 3 份 ＋ 合同/报价模板</td></tr>
+      <tr class="quad"><td colspan="4">W × T ｜ 避险 —— 危险区：短板撞上风险，一旦发生就是出局</td></tr>
+      <tr><td class="id">WT1</td><td>W1 单人 ＋ W5 单机架构 ＋ W4 SQLite 写锁 × T4 违规入黑名单 6 个月 ＋ T6 客户收入集中 Q3-Q4</td><td><b>单点故障红线</b>：任何时点同时服务的学校不超过 5 所；Q3-Q4 旺季前完成数据库迁移（10-15 人天）与故障手册。宁可少接单，不可在旺季宕机</td><td>数据库迁移完成 ＋ 故障手册</td></tr>
+      <tr><td class="id">WT2</td><td>W13 测算口径冲突 ＋ W19 自有证据未收敛（B4/A6 表头未定）＋ W12 未经实签 × T13 数字会被追问 ＋ T7 价格锚定</td><td><b>两件事</b>：① 先把 B4/A6 两张表的表头列义定死；② 03 定口径前，对外材料一律不出现 TAM/选考生总量，销售只讲"每班每年多少元、省下多少小时"（O15 的 415 分钟/班 × T9 的 35-70 元/时）</td><td>表头列义确认单 ＋ 销售口径卡</td></tr>
+      <tr><td class="id">WT3</td><td>W14 双 API 依赖、成本优势建立在降价假设上 × T8 模型降价（利）＋ T12 大平台可能入场（险）</td><td><b>双轨</b>：① 把"多接一家"落成可切换的适配层，不让成本优势变单点依赖；② 把护城河从"便宜"转到"评测集＋真实答题卡数据＋教研关系"——这三样降价和大平台都买不到</td><td>适配层 ＋ 数据资产清单</td></tr>
+    </tbody>
+  </table>
+
+  <h2>六、反直觉洞察<span class="q">讲透版 · 判定尺子 → 记录五次/执行零次 → 门槛机制 → 可否证伪</span></h2>
+  <div class="insight">
+    <p class="lead">最被忽略、影响最大的那一个因素是：<b>政策已从“鼓励”切换到“规范”。</b>它的反直觉之处不在“没人提”，而在<b>它被记录了五次、执行了零次</b>——“记录了它”这件事本身，制造了“已经处理过”的错觉。</p>
+
+    <p style="font-size:13.5px;font-weight:600;color:#7d2716;margin:22px 0 8px">6.1 先立尺子：什么样的因素才配叫“最容易被忽略、又影响最大”</p>
+    <p style="font-size:13.5px;color:#4e5969;margin:0 0 10px">不先立标准，“最重要”就只是主观判断。三条尺子必须<b>同时</b>满足：</p>
+    <table style="width:100%;font-size:12.5px">
+      <thead><tr><th>尺子</th><th>问什么</th><th>不满足会怎样</th></tr></thead>
+      <tbody>
+        <tr><td><b>R1 有硬截止日</b></td><td>过期之后能不能补回来？</td><td>可以明年再处理的，不配叫“最紧急”</td></tr>
+        <tr><td><b>R2 是门槛型</b></td><td>它决定“能不能做”，还是“做得好不好”？</td><td>连续变量可以慢慢优化；门槛不过就是 0</td></tr>
+        <tr><td><b>R3 是既定事实</b></td><td>已生效的法条，还是概率事件？</td><td>拿概率事件当最优先，等于把资源押在猜测上</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:13.5px;color:#4e5969;margin:10px 0 0">再给“被忽略”一个<b>可检验</b>的定义：<b>不是没看见，而是看见了、登记了、没排期。记录 ≠ 处理。</b></p>
+
+    <p style="font-size:13.5px;font-weight:600;color:#7d2716;margin:22px 0 8px">6.2 被忽略的准确位置：记录了五次，执行了零次</p>
+    <p style="font-size:13.5px;color:#4e5969;margin:0 0 10px">把本项目已产出的文件翻一遍，这条因素出现过五次：</p>
+    <table style="width:100%;font-size:12.5px">
+      <thead><tr><th>出现位置</th><th>记录形态</th><th>等级</th><th>执行状态</th></tr></thead>
+      <tbody>
+        <tr><td>01-PESTLE <b>L4</b></td><td>三条硬红线：白名单／数据本地化／<b>严禁把试题输入 AI</b></td><td>威胁·<b>极高</b>·确定</td><td>—</td></tr>
+        <tr><td>01-PESTLE 所以呢 P0</td><td>建议“设为<b>立项第一道闸门</b>”</td><td>P0</td><td>未落地</td></tr>
+        <tr><td>02-SWOT <b>W11</b></td><td>“当前最大合规敞口”（原文即写“详见第六节”）</td><td>可查证</td><td>—</td></tr>
+        <tr><td>02-SWOT <b>T1-T4</b></td><td>四条准入门槛（红线／提供者身份／未成年人数据／备案与等保）</td><td>可查证</td><td>—</td></tr>
+        <tr><td><b>C5 合规清单</b></td><td><b>20 项</b>自查（14 岁以下单独同意、PIA、ICP、等保、是否算教育 App、是否需算法备案…）</td><td>—</td><td style="color:#a8331f;font-weight:600">全部 [ ]</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:13.5px;color:#4e5969;margin:10px 0 0">而与它<b>同源的那一半</b>，被登记成了 <b>01-PESTLE P2</b>（机会·极高·确定）——《教育强国建设规划纲要》“打造人工智能教育大模型”、教办〔2025〕3 号“全面推进智能化”。<br>
+    <b>P2 与 L4 是同一条政策主线的两级</b>：一级鼓励“AI 进教育”，一级规定“AI 怎么进”。我们收下了鼓励那半，把规范那半登记成风险、标了“极高”、然后放在那里。<br>
+    <b>这就是“最容易被忽略”的准确位置——记录得越多，越像已经处理过。</b>风险被写进了表格，没被写进日历；而“极高”两个字不会自己变成动作。</p>
+
+    <p style="font-size:13.5px;font-weight:600;color:#7d2716;margin:22px 0 8px">6.3 为什么它“容易”被忽略：四个结构性原因</p>
+    <table style="width:100%;font-size:12.5px">
+      <thead><tr><th>#</th><th>机制</th><th>在本项目的具体表现</th></tr></thead>
+      <tbody>
+        <tr><td>a</td><td><b>同一份文件被劈成两半</b></td><td>P2 与 L4 在 PESTLE 表里是相邻两行、互不指涉——<b>“拆表”这个动作本身，消灭了“这是同一件事”的信息</b></td></tr>
+        <tr><td>b</td><td><b>只有正反馈，没有负反馈</b></td><td>红利今天就能兑现成融资叙事与销售话术；合规的缺失在出事前<b>成本为零</b>。延迟成本不可见 → 人不会给“没发生的事”排期</td></tr>
+        <tr><td>c</td><td><b>合规被默认是成本中心</b></td><td>单人团队的资源序天然是 收入 &gt; 交付 &gt; 合规（W1 Bus factor = 1，<b>连“合规负责人”这个角色都不存在</b>）</td></tr>
+        <tr><td>d</td><td><b>高等级标签的麻痹效应</b></td><td>标了“极高”会带来“已经重视了”的心理满足——<b>表格里的“极高”是最廉价的尽责感</b></td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-size:13.5px;font-weight:600;color:#7d2716;margin:22px 0 8px">6.4 为什么它“影响最大”：它是门槛，不是竞争变量</p>
+    <ul>
+      <li><b>二值性（对 R2）</b>：三项判定（是否属教育 App／是否需算法备案／等保定级）任一卡住，前面所有 S——S7 的 6.1 万实收、S8 的 15 人干系人网、S9 的转介绍、S18 的 15 分钟验收线——<b>全部无法变现</b>。<b>这不是“输给谁”，是“没进场”。</b>竞品分析里所有赢/输场景，都默认了一个双方都能进的门。</li>
+      <li><b>不可回填（对 R1）</b>：教技厅〔2019〕3 号——未备案或违规的列入黑名单，<b>6 个月内不得再提交备案</b>。窗口余约 15 个月（O3）→ <b>一次操作失误可作废 40% 的窗口</b>。</li>
+      <li><b>对所有人同时生效，但成本不对称</b>：我们要改的是“数据不出校 ＋ 不存原图 ＋ 境内存储”这类<b>设计约束</b>（S13 已做，边际成本 ≈ 0）；讯飞的智学网要上硬件、现场实施、几十万级交付（A5·一）→ <b>同一部法条，对轻架构是加法，对重架构是乘法</b>。所以这个“最大威胁”同时是我们<b>最便宜的相对优势</b>（T1 的竞争含义）。</li>
+      <li><b>与产品零冲突</b>：三项判定不依赖产品完成度——不需要代码写完就能去问、去办。<b>它是并行任务，不抢产品的时间，只是不占用而已。</b></li>
+    </ul>
+
+    <p style="font-size:13.5px;font-weight:600;color:#7d2716;margin:22px 0 8px">6.5 三个候选的裁决（为什么不是另外两个）</p>
+    <table style="width:100%;font-size:12.5px">
+      <thead><tr><th>候选</th><th>影响大吗</th><th>“被忽略”吗</th><th>判定</th></tr></thead>
+      <tbody>
+        <tr><td>① 手工 Excel／行为惯性（T5）</td><td>大——它是份额最大的竞争对手</td><td><b>不算被忽略，是被轻看</b>：骨架与 04 都点了名；真正被低估的是<b>机制＝归因权</b></td><td><b>排除</b>：它<b>没有截止日</b>，且随教师换代（教龄 ≥25 年占 15%，T16）自然衰减 → <b>消耗战对手</b>，不是倒计时炸弹</td></tr>
+        <tr><td>② 政策鼓励→规范</td><td><b>最大</b>——门槛型／不可回填／成本不对称</td><td><b>是</b>：记录了五次、执行零次（见 6.2）</td><td><b>是它</b></td></tr>
+        <tr><td>③ “不排名”是限制还是信任</td><td>中——影响的是增长叙事</td><td>是：被低估成“内部的一条不做”</td><td><b>保留为结论</b>：是净收益（家长需求仅 12%，B4·二）→ 应升级为<b>对外明示的承诺</b>（ST3）</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:13.5px;color:#4e5969;margin:10px 0 0">候选①的机制值得单列：我们名义上在和 Excel 竞争，实际在和“<b>我想自己判断</b>”竞争。这个战场上 Excel 的效率劣势只是表面——<b>它不投标、不降价、不出故障、不需要学</b>，而且它的“准”是老师亲手赋予、不可质疑的（“我可不敢全信”B1·五／“那是我的活”B1·一）。S4「老师先审后发」不是礼貌性设计，是<b>唯一能绕开这场竞争的接口</b>。</p>
+
+    <p style="font-size:13.5px;color:#4e5969;margin:10px 0 0"><b>三个候选不是并列的：②是母题，①③是同一件事在产品层的两个面。</b>规范期管的是“AI 怎么进”，而它管的方向恰好把“AI 替代老师／直接给答案／做排名”三类形态推到门槛外：<b>严禁把试题输入 AI</b>（T1）否掉了“给答案”路线；<b>白名单＋进校合规</b>让“AI 接管”叙事在校内变成负分项（S17 用户原话：“一说 AI 替你判断，谈话就进行不下去了”）；<b>排名是家长投诉与合规风险的集中源</b>（T1/T3），而这正是我们主动放弃的（S3）。所以①③不是价值观洁癖，而是<b>与红线同向的设计选择</b>——规范越紧，它们越值钱。换句话说：<b>我们最该优先办的那件事（②），同时也在给另外两条的正当性背书。</b></p>
+
+    <p style="font-size:13.5px;font-weight:600;color:#7d2716;margin:22px 0 8px">6.6 讲透的最后一环：这个判断怎么被证明是错的</p>
+    <p style="font-size:13.5px;color:#4e5969;margin:0 0 8px">一个“讲透”的结论必须能被打脸，否则就只是口号。</p>
+    <ul>
+      <li><b>证伪路径</b>：若 ① 不被认定为“教育 App”（纯 Web 校内工具）② 不具“舆论属性或社会动员能力”故无需算法备案 ③ 等保定级不适用 → <b>本节结论作废</b>，P0-1 降级为备忘录。</li>
+      <li><b>但这不重要，因为“去问”是无悔动作（no-regret move）</b>：判定本身只需问教育行政部门一次 ＋ 备案系统问一次，周期以周计、成本近零（C5·二/三 自查项原文就是这么写的：“找教育行政部门确认一次”“去备案系统问一次”）。<b>先去问，无论答案倒向哪边都不亏；不问，答案永远悬着。</b></li>
+      <li><b>提前监测的三个信号</b>（出现任意一个，说明窗口在收）：① 地方开始出“AI 服务进校白名单”；② 学校开始要求供应商填自己的合规表格（C5 备注：“很多学校自己有一套供应商合规表格要填”）；③ 商务对话里<b>先问数据安全、再问功能</b>（C2 副校长那次通话“他重点问的就是数据安全”）。</li>
+    </ul>
+
+    <p style="font-size:13.5px;font-weight:600;color:#7d2716;margin:22px 0 8px">6.6 附表：把“去问”讲成可执行——三张备案判定卡 ＋ 一张红线卡</p>
+    <p style="font-size:13.5px;color:#4e5969;margin:0 0 10px">“去问是无悔动作”这句话，只有在能回答“问谁、问什么、什么答案算通过”之后才算讲透。四张卡全部出自 C5 的自查项与 A1 的条文：</p>
+    <table style="width:100%;font-size:12.5px">
+      <thead><tr><th>#</th><th>判定什么</th><th>依据（文号）</th><th>问谁</th><th>要到的答案</th><th>若“需要办”的后果</th></tr></thead>
+      <tbody>
+        <tr><td>卡1</td><td>算不算“教育 App”、要不要做<b>提供者备案</b></td><td>教技厅〔2019〕3 号</td><td>省级教育行政部门</td><td>“属／不属”＋备案路径</td><td>需 ICP 备案＋等保定级＋使用者备案；<b>未备案入黑名单，6 个月内不得再提交</b></td></tr>
+        <tr><td>卡2</td><td>算不算“提供者”、要不要<b>算法备案与安全评估</b></td><td>网信办等七部门令第 15 号（<b>API 封装/嵌套也算提供者</b>）</td><td>备案系统 beian.cac.gov.cn／省级网信办</td><td>“算不算提供者”“要不要算法备案”</td><td>需算法备案＋安全评估，周期以季度计</td></tr>
+        <tr><td>卡3</td><td><b>等保定几级</b>、谁来测、多久、多少钱</td><td>等保 2.0 ＋ 教技厅〔2019〕3 号</td><td>测评机构／学校信息中心管理员（C2 已有该角色）</td><td>定级结论＋测评周期＋报价</td><td>需定级则要排进预算与硬件时间</td></tr>
+        <tr><td>卡4</td><td>三条<b>红线</b>在规格书里的落点</td><td>《中小学生成式人工智能使用指南(2025 年版)》</td><td>内部（产品规格）＋对接学校</td><td>“数据不出校／不存原图／教师终审”各有落点</td><td>不落点则产品形态要改（S13 已完成大半）</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:13.5px;color:#4e5969;margin:10px 0 0"><b>时间倒排（与第七节 P0-1 同一口径）</b>：现在 → 四张卡各问一次，先拿到“要不要办”；<b>2026.Q4</b> → 判定结论一出来就启动备案，PIA 与 14 周岁以下单独同意机制进排期；<b>2027.Q1</b> → PIA 与单独同意上线、ICP/等保材料齐；<b>2027 学年</b> → 窗口后半段仍能“边合规边卖”，而不是被迫“先合规、再谈产品”。</p>
+
+    <p style="font-size:13.5px;font-weight:600;color:#7d2716;margin:22px 0 8px">6.7 一句话结论</p>
+    <p style="font-size:13.5px;color:#4e5969;margin:0"><b>那个因素是“政策已从鼓励切换到规范”——而且它被记录得最多、被执行得最少。</b><br>
+    三条件齐备：有硬截止日（黑名单 6 个月 ＋ 窗口约 15 个月）、决定能不能上线（门槛而非效率）、且是既定事实（已生效法条，T1-T4 全部【可查证】）。它也是全篇唯一一件<b>不依赖产品完成度</b>就能办、办完长期有效的事。</p>
+
+    <p style="font-size:13.5px;font-weight:600;color:#7d2716;margin:22px 0 8px">6.8 两个时钟的错位</p>
+    <p style="font-size:13.5px;color:#4e5969;margin:0">我们一直在找的那个“首次体验 X 分钟”，需求侧早就说出来了——<b>15 分钟出报告（S18）、分类一致率 80%（W8）</b>，两条验收线都写在素材里。也就是说“产品能不能成立”已经有人给了答案，缺的只是实测；而“能不能拿到入场券”这件事，至今一个手续都没办。<br><b>先把有答案的事做出来，还是先把没答案的门票买到手？</b>后者是卡住前者的那一步——产品做得再好，门没开也进不去；而门票本身就是产品规格的一部分（S13），先办反而让产品少返工。</p>
+  </div>
+
+  <h2>七、所以呢<span class="q">3 条 · 带时间窗 / 完成判定口径 / 负责归属 / 置信度</span></h2>
+  <div class="note">
+    <b>时间窗的推导依据</b>：窗口期 2025-2027（O3），当前 2026-09，余约 15 个月。教育 App 备案＋等保定级＋算法备案的常规周期以季度计（3-6 个月），且学校采购收入 60-70% 集中在 Q3-Q4、纳入年度预算需 6-9 个月（T6）——所以<b>要做进 2027 年的动作，必须在 2026.Q4 启动</b>，否则顺延到 2027 学年、撞上窗口末端。
+  </div>
+  <table>
+    <colgroup><col style="width:56px"><col style="width:19%"><col style="width:19%"><col><col style="width:15%"><col style="width:70px"></colgroup>
+    <thead><tr><th>优先级</th><th>行动</th><th>时间窗</th><th>完成判定（口径）</th><th>负责</th><th>置信度</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="id" style="color:#a8331f">P0-1</td>
+        <td><b>先买票，再上车</b>：办合规、把三条红线写成规格</td>
+        <td>三项判定结论 <b>2026.Q4 内</b>拿到并启动备案；PIA 与 14 周岁以下单独同意机制 <b>2027.Q1 内</b>上线</td>
+        <td>① C5 清单 20 项由 [ ] 变 [√]；② T1 三条红线在产品规格书中<b>各有明确落点</b>——已实现，或写明"明确不做"并说明为何不触碰红线</td>
+        <td>创始人主责；备案与等保定级外委代理机构；规格书条款由产品/技术侧出</td>
+        <td class="cf"><span class="tag t-ok">高</span><br><span style="font-size:11px;color:#86909c">法规已生效、路径确定；不确定项只有耗时与地方执行口径</span></td>
+      </tr>
+      <tr>
+        <td class="id" style="color:#a8331f">P0-2</td>
+        <td><b>把机会锚在教研会，不锚在广告</b></td>
+        <td>对照表与"现场出报告"流程 <b>2026.Q4 内</b>定稿；<b>2027 春季学期</b>落地 2 场省级教研会（一年 2-3 次，上半年至少 1 场）</td>
+        <td>① 每场会后 48 小时内回收 ≥5 位备课组长联系方式；② 当学期内 ≥2 所学校进入免费试用；③ O21 的 180-420 班名单中首批锁定 10 所（已购讯飞/阅卷机的排第二批）</td>
+        <td>创始人（唯一持有省教研入口的人）</td>
+        <td class="cf"><span class="tag t-multi">中</span><br><span style="font-size:11px;color:#86909c">渠道存在、口子已开（S8/S9），但"教研会→试用"的转化率尚无先例</span></td>
+      </tr>
+      <tr>
+        <td class="id" style="color:#8a5a00">P1</td>
+        <td><b>用两个用户已经给出的数字，换掉一堆形容词</b></td>
+        <td>一致率实测 <b>2026.Q4 内（30 天）</b>；OCR 端到端 15 分钟线 <b>2026.Q4 末</b></td>
+        <td>① 90 道诊断题盲评，vs 2 位资深化学老师的一致率 <b>≥80%</b>（对照基线 40%，O17）；② 50 份/班端到端 <b>≤15 分钟</b>（当前 17-33 分钟，W6）；③ 190 端点砍到"单校可交付闭环"并冻结范围</td>
+        <td>创始人（技术）；王顾问任第二评判者（避免自查自评）</td>
+        <td class="cf"><span class="tag t-assume">低-中</span><br><span style="font-size:11px;color:#86909c">80% 能否达到未知（W8 目前只有自评信心分）；15 分钟<b>当前明确不达标</b></span></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="note">
+    <b>三条的依赖关系（决定先做哪个）</b>
+    <ol>
+      <li><b>P0-1 不依赖产品完成度</b>，是唯一"现在做、做完长期有效、且竞品改起来更贵"的事 → <b>先做它</b>。</li>
+      <li><b>P0-2 依赖 P1 的第二个数字</b>（出报告 ≤15 分钟）——现场出报告不能当场卡 20 分钟，所以 P1 的时间要求实际由 P0-2 倒逼。</li>
+      <li><b>P1 的两个数字决定 P0-2 的材料能不能发</b>：达不到 80% 与 15 分钟，SO2 那张对照表就不能对外用。</li>
+      <li>若时间冲突：<b>P0-1 → P1（30 天实测）→ P0-2</b>。P0-1 与 P1 可并行（一个对外手续、一个对内实测，不争同一种精力）。</li>
+    </ol>
+  </div>
+
+  <footer>
+    未展开：骨架第六～九节（竞争对标 20 维评分 / 3 情景分析 / 12 项风险行动计划 / 季度审查模板）未写；其中"风险行动计划"已由 TOWS 的 13 条策略承担。<br>
+    口径裁定详见《口径与班额裁定备忘》；B 库 18 条证据已并入 S17-S21 / W17-W19 / O15-O21 / T14-T16。<br>
+    剩余待办：B4 与 A6 两张表的表头列义（W19）、A6 班数在 03 重算。<br>
+    <b>v3 修订（2026-09-16 深夜）</b>：① 第六节深化——裁决三个候选因素，明确"政策鼓励→规范 ＋ 我们自己把它登记成红利而非排期"为被忽略的那一个；② 第五节 TOWS 去重（13 条，每条一个产出物）；③ 第七节「所以呢」补时间窗、完成判定口径、负责归属、置信度与依赖关系。<br><b>v3.1 加固（2026-09-16）</b>：自检发现 16 行「竞争含义」偏「战略含义」、未点出对手，已逐行补上「对谁竞争」（S10/S15/S16/S18/S19/S20/W16/W19/O9/O10/O15/O19/O21/T9/T11/T13）。
+  </footer>
+
+</div>
+</body>
+</html>

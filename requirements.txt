@@ -1,0 +1,87 @@
+# ChemAI 依赖清单
+#
+# 基线：详细版 42 号文档 Step 6 给出的 21 个包。
+# 补充：与其余设计文档（23/29/36/37/43/45/46/53 号）交叉核对后补入的 8 个包，逐行注明出处。
+# 安装：pip install -r requirements.txt
+
+# ── Web 框架 ──────────────────────────────────────────
+fastapi==0.109.2
+uvicorn[standard]==0.27.1
+python-multipart==0.0.9            # 文件上传（FormData）
+
+# ── 数据层 ────────────────────────────────────────────
+sqlalchemy==2.0.25
+alembic==1.13.1
+pymysql>=1.1.0                     # 生产切 MySQL 用
+aiosqlite>=0.19.0                  # 补：SQLite 异步驱动（43 号）
+chromadb==0.4.22                   # 向量检索（37 号）
+
+# ── 配置与校验 ────────────────────────────────────────
+pydantic==2.6.1
+pydantic-settings==2.1.0
+python-dotenv==1.0.1
+pyyaml>=6.0                        # 补：Persona 配置 / 审核 prompt 模板（46 号）
+
+# ── HTTP 客户端 ───────────────────────────────────────
+httpx==0.26.0
+requests==2.31.0
+
+# ── 认证 ──────────────────────────────────────────────
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+
+# ── Agent 层 ──────────────────────────────────────────
+# 注：langgraph / checkpoint-sqlite / checkpoint 三者版本强耦合，改动需同步——
+#     langgraph 0.4.x 要求 langgraph-checkpoint <3.0.0，
+#     而 checkpoint-sqlite 2.0.x 才对应 checkpoint 2.x（3.x 会拉 checkpoint 4.x，与 langgraph 0.4 冲突）。
+#     已验证组合：langgraph 0.4.0 + checkpoint-sqlite 2.0.11 + checkpoint 2.1.2。
+langgraph==0.4.0                   # 补：单 Agent ReAct 框架（29/37/53 号）
+langgraph-checkpoint-sqlite==2.0.11  # 补：AsyncSqliteSaver / AsyncSqliteStore（33 号 §7、53 号）
+langchain-openai>=0.1.0            # OpenAI 兼容 Provider 接入
+dashscope==1.20.0                  # 通义千问 Embedding（text-embedding-v3）
+
+# ── 调度 ──────────────────────────────────────────────
+apscheduler==3.10.4
+
+# ── 化学 ──────────────────────────────────────────────
+rdkit>=2024.3.1                    # 补：配平用的分子结构校验（37 号 §七）
+
+# ── 文档与导出 ────────────────────────────────────────
+python-docx==1.1.0                 # 试卷 DOCX 导出
+reportlab>=4.0                     # 补：试卷 PDF 导出（45 号）
+
+# ── 桌面打包（阶段七 58-59 用）────────────────────────
+pywebview>=5.0                     # 补：三入口桌面壳（36 号）
+pyinstaller>=6.0                   # 补：打包 .exe（36 号）
+
+# ── 数值计算 ──────────────────────────────────────────
+# 注：ChromaDB 0.4.22 内部使用 NumPy 2.0 已移除的 np.float_，
+#     必须锁 numpy < 2，否则 import chromadb 直接报 AttributeError。
+numpy<2
+
+# ── 测试 ──────────────────────────────────────────────
+pytest>=8.0
+pytest-asyncio>=0.24.0
+
+# ── 浏览器工具（Agent 的搜索/抓取/解析）──────────────
+playwright>=1.40
+
+
+# ══════════════════════════════════════════════════════
+# 以下为「延后安装」项：需要时取消注释即可
+# ══════════════════════════════════════════════════════
+
+# ── OCR 三引擎（阶段四·49 号文档启用）────────────────
+# 说明：PP-OCRv6 与 MinerU 都要额外下载本地模型（合计约 1-2GB），
+#       且属阶段四（47-51）才用到的能力，故不在环境搭建阶段安装。
+# paddleocr>=2.7                   # PP-OCRv6 答题卡默认引擎（23/37 号）
+# paddlepaddle>=2.6                # paddleocr 后端
+# onnxruntime>=1.17                # paddleocr 推理后端
+# mineru>=2.0                      # PDF 试卷解析（23/37/49 号）
+
+# ── 本地向量嵌入（暂不启用）──────────────────────────
+# 说明：详细版 45 号提到用 sentence-transformers 做向量嵌入，但 37 号（技术选型权威）
+#       已裁定 Embedding 走 DashScope text-embedding-v3（1024 维）。
+#       启用本项会连带安装 PyTorch（约 2GB），且与 37 号选型冲突，故默认不装。
+#       若后续确需改为本地嵌入，用 43 号文档的迁移流程显式处理。
+# sentence-transformers>=2.2
